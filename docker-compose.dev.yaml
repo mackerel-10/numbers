@@ -1,0 +1,15 @@
+services:
+  app:
+    container_name: app
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+    networks:
+      - default
+    environment:
+      - NODE_ENV: development
+
+networks:
+  - default
