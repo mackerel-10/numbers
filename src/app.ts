@@ -1,6 +1,5 @@
 import express from "express";
-import * as dotenv from "dotenv";
-dotenv.config({ path: "../" + __dirname + "/.env.local" });
+import { PORT } from "./config";
 
 const app = express();
 

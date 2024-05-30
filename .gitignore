@@ -2,4 +2,7 @@
 .DS_Store
 
 node_modules/
-.env.local
+
+# Test Environments
+# NODE_ENV=test
+.env.*
