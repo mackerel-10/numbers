@@ -7,10 +7,11 @@
     "node": ">=18"
   },
   "scripts": {
+    "lint": "eslint . --ext .ts",
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
-    "dev": "NODE_ENV=development ts-node src/app",
-    "lint": "eslint . --ext .ts"
+    "predev": "npm run lint && npm run test",
+    "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/app"
   },
   "dependencies": {
     "class-validator": "^0.14.1",
