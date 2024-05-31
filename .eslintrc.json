@@ -6,7 +6,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["tsconfig.json"],
+    "project": ["./tsconfig.json"],
     "sourceType": "script",
     "ecmaVersion": 2017
   },
@@ -17,5 +17,5 @@
     "prettier"
   ],
   "rules": {},
-  "ignorePatterns": ["test/**/*.test.ts"]
+  "ignorePatterns": ["test/**/*.test.ts", "jest.config.js", "dist/"]
 }
