@@ -1,8 +1,12 @@
+# IDE files
 .idea/
 .DS_Store
 
+# Node modules
 node_modules/
 
-# Test Environments
-# NODE_ENV=test
+# Environment file
 .env.*
+
+# Build files
+dist/
