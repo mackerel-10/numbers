@@ -1,13 +1,14 @@
 import path from 'path';
 import fs from 'fs';
 import { validate } from 'class-validator';
-import { ENVIRONMENT, ROOT_PATH, PORT } from '../src/config/config';
+import { NODE_ENV, ROOT_PATH, PORT } from '../src/config/config';
 import Env from '../src/validations/env';
 
 const validateEnvFile = () => {
-  const envPath = path.resolve(ROOT_PATH, `.env.${ENVIRONMENT}`);
+  const envPath = path.resolve(ROOT_PATH, `.env.${NODE_ENV}`);
+  const isExist = fs.existsSync(envPath);
 
-  expect(fs.existsSync(envPath)).toBe(true);
+  expect(isExist).toBe(true);
 };
 
 const validateEnvVariables = async () => {
@@ -15,17 +16,16 @@ const validateEnvVariables = async () => {
   env.PORT = PORT;
 
   try {
-    const errors = await validate(env);
-    expect(errors).toEqual([]);
+    await validate(env);
   } catch (error) {
-    fail(`Validation failed with error: ${error}`);
+    expect(error).toEqual([]);
   }
 };
 
 describe('Environment file existence check', () => {
   // Test file existence
-  test(`Check ${ENVIRONMENT} environment file is exist`, validateEnvFile);
+  test(`Check ${NODE_ENV} environment file is exist`, validateEnvFile);
 
   // Test environment variables
-  test(`Validate ${ENVIRONMENT} environment variables`, validateEnvVariables);
+  test(`Validate ${NODE_ENV} environment variables`, validateEnvVariables);
 });
