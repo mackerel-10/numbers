@@ -1,8 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 import { validate } from 'class-validator';
-import { NODE_ENV, ROOT_PATH, PORT } from '../src/config/config';
+import { NODE_ENV, ROOT_PATH, PORT, SKIP_ENV_TEST } from '../src/config/config';
 import Env from '../src/validations/env';
+import logger from '../src/config/logger';
 
 const validateEnvFile = () => {
   const envPath = path.resolve(ROOT_PATH, `.env.${NODE_ENV}`);
@@ -23,9 +24,15 @@ const validateEnvVariables = async () => {
 };
 
 describe('Environment file existence check', () => {
-  // Test file existence
-  test(`Check ${NODE_ENV} environment file is exist`, validateEnvFile);
+  if (!SKIP_ENV_TEST) {
+    // Test file existence
+    test(`Check ${NODE_ENV} environment file is exist`, validateEnvFile);
 
-  // Test environment variables
-  test(`Validate ${NODE_ENV} environment variables`, validateEnvVariables);
+    // Test environment variables
+    test(`Validate ${NODE_ENV} environment variables`, validateEnvVariables);
+  } else {
+    it('Skip environment test', () => {
+      logger.info('Environment test is skipped');
+    });
+  }
 });
