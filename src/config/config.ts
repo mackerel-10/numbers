@@ -7,4 +7,4 @@ export const ROOT_PATH = path.resolve(__dirname, '../../');
 dotenv.config({ path: `${ROOT_PATH}/.env.${NODE_ENV}` });
 
 export const PORT = Number(process.env.PORT) || 3000;
-export const SKIP_ENV_TEST = process.env.SKIP_ENV_CHECK === 'true';
+export const SKIP_ENV_TEST = process.env.SKIP_ENV_TEST === 'true';

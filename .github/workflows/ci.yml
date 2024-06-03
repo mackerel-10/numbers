@@ -33,5 +33,6 @@ jobs:
 
       - name: Run tests
         run:
-          export SKIP_ENV_CHECK=true |
           npm test
+        env:
+          SKIP_ENV_TEST: true
