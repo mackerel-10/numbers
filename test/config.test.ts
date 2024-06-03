@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { validate } from 'class-validator';
 import { NODE_ENV, ROOT_PATH, PORT, SKIP_ENV_TEST } from '../src/config/config';
-import Env from '../src/validations/env';
+import EnvDto from '../src/dto/envDto';
 import logger from '../src/config/logger';
 
 describe('Environment file existence check', () => {
@@ -17,7 +17,7 @@ describe('Environment file existence check', () => {
 
     // Test environment variables
     test(`Validate ${NODE_ENV} environment variables`, async () => {
-      const env = new Env();
+      const env = new EnvDto();
       env.PORT = PORT;
 
       try {

@@ -1,7 +1,9 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export default class Env {
+class EnvDto {
   @IsNumber()
   @IsNotEmpty()
   PORT!: number;
 }
+
+export default EnvDto;
