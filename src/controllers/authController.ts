@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 
 class AuthController {
   async signUp(req: Request, res: Response) {
-    // TODO Add request validation here
-    const { email, password, firstName, lastName } = req.body;
+    // TODO Get password from req.body
+    const { email, firstName, lastName } = req.body;
 
-    // TODO your signup logic
+    // TODO Signup logic
     return res.status(httpStatus.CREATED).json({
       message: 'User created successfully',
       user: {

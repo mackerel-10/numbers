@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import httpStatus from 'http-status';
-import signUpDto from '../src/dto/auth/signUpDto';
+import { SignUpDto } from '../src/dto/authDto';
 import validationMiddleWare from '../src/middlewares/validationMiddleware';
 import { createMockObjects, mockUser } from './mockData';
 
@@ -11,7 +11,7 @@ describe('Validation Middleware Test', () => {
       mockUser.validRequest
     );
 
-    await validationMiddleWare(signUpDto)(mockRequest, mockResponse, mockNext);
+    await validationMiddleWare(SignUpDto)(mockRequest, mockResponse, mockNext);
     expect(mockResponse.status).not.toHaveBeenCalledWith(
       httpStatus.BAD_REQUEST
     );
@@ -22,7 +22,7 @@ describe('Validation Middleware Test', () => {
       mockUser.badRequest
     );
 
-    await validationMiddleWare(signUpDto)(mockRequest, mockResponse, mockNext);
+    await validationMiddleWare(SignUpDto)(mockRequest, mockResponse, mockNext);
     expect(mockResponse.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });
 });
@@ -32,7 +32,7 @@ describe('/auth User API Test', () => {
     try {
       const response = await request(app)
         .post('/api/v1/auth/signup')
-        .send(mockUser);
+        .send(mockUser.validRequest);
 
       expect(response.statusCode).toBe(httpStatus.CREATED);
     } catch (error) {
