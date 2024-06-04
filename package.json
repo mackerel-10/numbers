@@ -2,7 +2,7 @@
   "name": "testdrivenflow",
   "version": "1.0.0",
   "description": "",
-  "exports": "./src/app.ts",
+  "exports": "./src/server.ts",
   "engines": {
     "node": ">=18"
   },
@@ -11,9 +11,10 @@
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "predev": "npm run lint && npm run test",
-    "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/app",
-    "docker:dev": "docker-compose -f docker-compose.dev.yaml up -d",
-    "docker:dev:down": "docker-compose -f docker-compose.dev.yaml down --rmi all"
+    "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/server",
+    "docker:dev": "docker compose -f docker-compose.dev.yaml up -d",
+    "docker:dev:down": "docker compose -f docker-compose.dev.yaml down --rmi all",
+    "docker:mysql": "docker compose -f docker-compose.dev.yaml up -d mysql"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
@@ -21,6 +22,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status": "^1.7.4",
+    "mysql2": "^3.10.0",
+    "typeorm": "^0.3.20",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
   },

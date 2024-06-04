@@ -39,7 +39,6 @@ const logger = winston.createLogger({
   ],
 });
 
-//* Production 환경이 아닌, 개발 환경일 경우 파일 들어가서 일일히 로그 확인하기 번거로우니까 화면에서 바로 찍게 설정 (로그 파일은 여전히 생성됨)
 if (NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
