@@ -1,36 +1,9 @@
 import request from 'supertest';
 import app from '../src/app';
 import httpStatus from 'http-status';
-import { Request, Response, NextFunction } from 'express';
 import signUpDto from '../src/dto/auth/signUpDto';
-import validationMiddleWare from '../src/middlewares/validationMiddleWare';
-
-function createMockObjects<T>(mockData: T) {
-  const mockRequest = {
-    body: mockData,
-  } as Request;
-  const mockResponse = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn(),
-  } as unknown as Response;
-  const mockNext: NextFunction = jest.fn();
-
-  return { mockRequest, mockResponse, mockNext };
-}
-
-const mockUser = {
-  validRequest: {
-    email: 'test@test.com',
-    password: 'password',
-    firstName: 'John',
-    lastName: 'Doe',
-  },
-  badRequest: {
-    email: 'test@test.com',
-    password: 'password',
-    firstName: 'John',
-  },
-};
+import validationMiddleWare from '../src/middlewares/validationMiddleware';
+import { createMockObjects, mockUser } from './mockData';
 
 describe('Validation Middleware Test', () => {
   test('Test valid request', async () => {
