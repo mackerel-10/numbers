@@ -1,7 +1,7 @@
 services:
   app:
     container_name: app
-    restart: always
+    restart: on-failure
     build:
       context: .
       dockerfile: ./deploy/app/Dockerfile
@@ -15,9 +15,11 @@ services:
       - PORT
     depends_on:
       - mysql
+    networks:
+      - backend
   mysql:
     container_name: mysql
-    restart: always
+    restart: on-failure
     ports:
       - "3306:3306"
     build:
@@ -34,6 +36,30 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
-#    volumes:
-#  swagger-ui:
-#    container_name: swagger-ui
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+  swagger-ui:
+#    linux/amd64
+    container_name: swagger-ui
+    restart: on-failure
+    image: swaggerapi/swagger-ui:v5.17.13
+#    platform: linux/amd64
+    ports:
+      - "8001:8080"
+#    env_file:
+#      - .env.development
+    environment:
+#      - SUPPORTED_SUBMIT_METHODS
+      - URL=/docs/swagger.yaml
+    volumes:
+      - ./docs:/usr/share/nginx/html/docs
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+    db-data:
+

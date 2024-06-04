@@ -14,7 +14,8 @@
     "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/server",
     "docker:dev": "docker compose -f docker-compose.dev.yaml up -d",
     "docker:dev:down": "docker compose -f docker-compose.dev.yaml down --rmi all",
-    "docker:mysql": "docker compose -f docker-compose.dev.yaml up -d mysql"
+    "docker:mysql": "docker compose -f docker-compose.dev.yaml up -d mysql",
+    "docker:mysql:down": "docker compose -f docker-compose.dev.yaml down --rmi all mysql"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
