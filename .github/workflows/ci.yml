@@ -23,6 +23,10 @@ jobs:
             MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
             MYSQL_USER: ${{secrets.MYSQL_USER}}
             MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-timeout=20s
+          --health-retries=10
 
     steps:
       - name: Checkout repository code
