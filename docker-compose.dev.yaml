@@ -39,10 +39,10 @@ services:
     image: swaggerapi/swagger-ui:v5.17.13
     ports:
       - "8001:8080"
-    env_file:
-      - .env.dev
     volumes:
       - ./docs:/usr/share/nginx/html/docs
+    environment:
+      - URL=docs/swagger.yaml
 
 networks:
   backend:
@@ -50,4 +50,3 @@ networks:
 
 volumes:
     db-data:
-
