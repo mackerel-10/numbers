@@ -16,6 +16,8 @@ jobs:
       mysql:
         # Docker Hub image
         image: mysql:8.4.0
+        ports:
+          - 3306:3306
         env:
             MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
