@@ -4,6 +4,7 @@ import { validate } from 'class-validator';
 import { NODE_ENV, ROOT_PATH, PORT, SKIP_ENV_TEST } from '../src/config/config';
 import EnvDto from '../src/dto/envDto';
 import logger from '../src/config/logger';
+import DatabaseModel from '../src/database/databaseModel';
 
 describe('Environment file existence check', () => {
   if (!SKIP_ENV_TEST) {
@@ -12,7 +13,7 @@ describe('Environment file existence check', () => {
       const envPath = path.resolve(ROOT_PATH, `.env.${NODE_ENV}`);
       const isExist = fs.existsSync(envPath);
 
-      expect(isExist).toBe(true);
+      expect(isExist).toBeTruthy();
     });
 
     // Test environment variables
@@ -31,4 +32,12 @@ describe('Environment file existence check', () => {
       logger.info('Environment test is skipped');
     });
   }
+});
+
+describe('Check database connection', () => {
+  test('Check database connection', async () => {
+    const db = await DatabaseModel.getDbInstance();
+    expect(db.appDataSource.isInitialized).toBeTruthy();
+    await db.appDataSource.destroy();
+  });
 });

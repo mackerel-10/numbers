@@ -2,7 +2,7 @@
   "name": "testdrivenflow",
   "version": "1.0.0",
   "description": "",
-  "exports": "./src/app.ts",
+  "exports": "./src/server.ts",
   "engines": {
     "node": ">=18"
   },
@@ -11,7 +11,14 @@
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "predev": "npm run lint && npm run test",
-    "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/app"
+    "dev": "NODE_ENV=development nodemon --watch src --ext ts --exec ts-node src/server",
+    "dev:up": "docker compose -f docker-compose.dev.yaml up -d",
+    "dev:down": "docker compose -f docker-compose.dev.yaml down --rmi all",
+    "mysql:up": "docker compose -f docker-compose.dev.yaml up -d mysql",
+    "mysql:down": "docker compose -f docker-compose.dev.yaml down --rmi all mysql",
+    "swagger:up": "docker compose -f docker-compose.dev.yaml up -d swagger",
+    "swagger:down": "docker compose -f docker-compose.dev.yaml down --rmi all swagger",
+    "ci/cd": "act --container-architecture linux/amd64 --secret-file .secrets"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
@@ -19,6 +26,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status": "^1.7.4",
+    "mysql2": "^3.10.0",
+    "typeorm": "^0.3.20",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
