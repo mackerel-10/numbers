@@ -11,11 +11,13 @@
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "predev": "npm run lint && npm run test",
-    "dev": "NODE_ENV=development nodemon --watch 'src' --ext ts --exec ts-node src/server",
-    "docker:dev": "docker compose -f docker-compose.dev.yaml up -d",
-    "docker:dev:down": "docker compose -f docker-compose.dev.yaml down --rmi all",
-    "docker:mysql": "docker compose -f docker-compose.dev.yaml up -d mysql",
-    "docker:mysql:down": "docker compose -f docker-compose.dev.yaml down --rmi all mysql"
+    "dev": "NODE_ENV=development nodemon --watch src --ext ts --exec ts-node src/server",
+    "dev:up": "docker compose -f docker-compose.dev.yaml up -d",
+    "dev:down": "docker compose -f docker-compose.dev.yaml down --rmi all",
+    "mysql:up": "docker compose -f docker-compose.dev.yaml up -d mysql",
+    "mysql:down": "docker compose -f docker-compose.dev.yaml down --rmi all mysql",
+    "swagger:up": "docker compose -f docker-compose.dev.yaml up -d swagger",
+    "swagger:down": "docker compose -f docker-compose.dev.yaml down --rmi all swagger"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",

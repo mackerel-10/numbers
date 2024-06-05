@@ -10,9 +10,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env.development
-    environment:
-      - PORT
+      - .env.dev
     depends_on:
       - mysql
     networks:
@@ -26,12 +24,7 @@ services:
         context: ./deploy/mysql
         dockerfile: Dockerfile
     env_file:
-      - .env.development
-    environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
+      - .env.dev
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -40,19 +33,14 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - backend
-  swagger-ui:
-#    linux/amd64
-    container_name: swagger-ui
+  swagger:
+    container_name: swagger
     restart: on-failure
     image: swaggerapi/swagger-ui:v5.17.13
-#    platform: linux/amd64
     ports:
       - "8001:8080"
-#    env_file:
-#      - .env.development
-    environment:
-#      - SUPPORTED_SUBMIT_METHODS
-      - URL=/docs/swagger.yaml
+    env_file:
+      - .env.dev
     volumes:
       - ./docs:/usr/share/nginx/html/docs
 
