@@ -17,7 +17,8 @@
     "mysql:up": "docker compose -f docker-compose.dev.yaml up -d mysql",
     "mysql:down": "docker compose -f docker-compose.dev.yaml down --rmi all mysql",
     "swagger:up": "docker compose -f docker-compose.dev.yaml up -d swagger",
-    "swagger:down": "docker compose -f docker-compose.dev.yaml down --rmi all swagger"
+    "swagger:down": "docker compose -f docker-compose.dev.yaml down --rmi all swagger",
+    "ci/cd": "act --container-architecture linux/amd64 --secret-file .secrets"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
