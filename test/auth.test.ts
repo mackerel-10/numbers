@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../src/app';
 import httpStatus from 'http-status';
+import app from '../src/app';
 import { SignUpDto } from '../src/dto/authDto';
 import validationMiddleWare from '../src/middlewares/validationMiddleware';
 import { createMockObjects, mockUser } from './mockData';
