@@ -13,3 +13,6 @@ dist/
 
 # Logs
 logs/
+
+# Test workflow
+*.secrets

@@ -1,13 +1,15 @@
 import path from 'path';
 import dotenv from 'dotenv';
+import { configureEnvFile } from '../utils/envFile';
 
 /**
  * Server Config
  */
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const ROOT_PATH = path.resolve(__dirname, '../../');
-dotenv.config({ path: `${ROOT_PATH}/.env.${NODE_ENV}` });
-export const SKIP_ENV_TEST = process.env.SKIP_ENV_TEST === 'true';
+export const ENV_FILE = configureEnvFile();
+dotenv.config({ path: `${ROOT_PATH}/${ENV_FILE}` });
+export const SKIP_ENV_TEST = Boolean(process.env.SKIP_ENV_TEST);
 export const PORT = Number(process.env.PORT) || 3000;
 
 /**
