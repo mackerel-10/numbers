@@ -10,9 +10,27 @@ const logFormat = printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
 
+/**
+ * winston log level
+ * error: 0
+ * warn: 1
+ * info: 2
+ * http: 3
+ * verbose: 4
+ * debug: 5
+ * silly: 6
+ */
+
 const logger = winston.createLogger({
   format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
   transports: [
+    new DailyRotateFile({
+      level: 'error',
+      dirname: `${logDirectory}/error`,
+      filename: '%DATE%-error.log',
+      datePattern: 'YYYY-MM-DD',
+      maxFiles: '14d',
+    }),
     new DailyRotateFile({
       level: 'info',
       dirname: logDirectory,
@@ -21,9 +39,9 @@ const logger = winston.createLogger({
       maxFiles: '14d',
     }),
     new DailyRotateFile({
-      level: 'error',
-      dirname: `${logDirectory}/error`,
-      filename: '%DATE%-error.log',
+      level: 'debug',
+      dirname: `${logDirectory}/debug`,
+      filename: '%DATE%-debug.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '14d',
     }),
