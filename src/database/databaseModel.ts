@@ -8,6 +8,7 @@ import {
   DB_TYPE,
   DB_USER,
 } from '../config/config';
+import User from './User';
 
 class DatabaseModel {
   private static instance: DatabaseModel;
@@ -28,14 +29,13 @@ class DatabaseModel {
         password: DB_PASSWORD,
         synchronize: true,
         logging: false,
-        // migrations: [],
-        // subscribers: [],
+        entities: [User],
       });
 
       try {
         await appDataSource.initialize();
 
-        logger.info(`🪷Database Connected: ${appDataSource.isInitialized}`);
+        logger.debug(`🪷Database Connected: ${appDataSource.isInitialized}`);
       } catch (error) {
         logger.error('Error initializing the database', error);
       }
@@ -44,24 +44,24 @@ class DatabaseModel {
 
     return DatabaseModel.instance;
   }
+
+  /*async insertUser(user: object) {
+    console.log('Inserting a new user into the database...');
+    const user = new User();
+    user.firstName = 'Timber';
+    user.lastName = 'Saw';
+    user.age = 25;
+    await AppDataSource.manager.save(user);
+    console.log('Saved a new user with id: ' + user.id);
+
+    console.log('Loading users from the database...');
+    const users = await AppDataSource.manager.find(User);
+    console.log('Loaded users: ', users);
+
+    console.log(
+      'Here you can setup and run express / fastify / any other framework.'
+    );
+  }*/
 }
 
 export default DatabaseModel;
-
-/*async function inserter() {
-  console.log('Inserting a new user into the database...');
-  const user = new User();
-  user.firstName = 'Timber';
-  user.lastName = 'Saw';
-  user.age = 25;
-  await AppDataSource.manager.save(user);
-  console.log('Saved a new user with id: ' + user.id);
-
-  console.log('Loading users from the database...');
-  const users = await AppDataSource.manager.find(User);
-  console.log('Loaded users: ', users);
-
-  console.log(
-    'Here you can setup and run express / fastify / any other framework.'
-  );
-}*/

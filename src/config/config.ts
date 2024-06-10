@@ -21,3 +21,8 @@ export const DB_PORT = Number(process.env.MYSQL_PORT) || 3306;
 export const DB_DATABASE = process.env.MYSQL_DATABASE;
 export const DB_USER = process.env.MYSQL_USER;
 export const DB_PASSWORD = process.env.MYSQL_PASSWORD;
+
+/**
+ * Bcrypt Config
+ */
+export const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
