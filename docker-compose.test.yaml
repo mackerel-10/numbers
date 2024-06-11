@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env.dev
+      - .env.test
     depends_on:
       - mysql
     networks:
@@ -23,7 +23,7 @@ services:
     ports:
       - "3306:3306"
     env_file:
-      - .env.dev
+      - .env.test
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s

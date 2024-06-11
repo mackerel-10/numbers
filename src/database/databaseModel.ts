@@ -1,4 +1,4 @@
-import { DataSource } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 import logger from '../config/logger';
 import {
   DB_DATABASE,
@@ -13,12 +13,14 @@ import User from './User';
 class DatabaseModel {
   private static instance: DatabaseModel;
   appDataSource: DataSource;
+  entityManger: EntityManager;
 
   constructor(appDataSource: DataSource) {
     this.appDataSource = appDataSource;
+    this.entityManger = appDataSource.manager;
   }
 
-  static async getDbInstance() {
+  static async getInstance() {
     if (!DatabaseModel.instance) {
       const appDataSource = new DataSource({
         type: DB_TYPE,
@@ -45,23 +47,33 @@ class DatabaseModel {
     return DatabaseModel.instance;
   }
 
-  /*async insertUser(user: object) {
-    console.log('Inserting a new user into the database...');
-    const user = new User();
-    user.firstName = 'Timber';
-    user.lastName = 'Saw';
-    user.age = 25;
-    await AppDataSource.manager.save(user);
-    console.log('Saved a new user with id: ' + user.id);
+  async insertUser(inputData: UserInput) {
+    try {
+      const user = new User();
+      user.email = inputData.email;
+      user.password = inputData.password;
+      user.first_name = inputData.firstName;
+      user.last_name = inputData.lastName;
 
-    console.log('Loading users from the database...');
-    const users = await AppDataSource.manager.find(User);
-    console.log('Loaded users: ', users);
+      await this.entityManger.save(user);
+      logger.debug('Saved a new user with id: ' + user.id);
+    } catch (error) {
+      logger.error('Error inserting user', error);
+    }
+  }
 
-    console.log(
-      'Here you can setup and run express / fastify / any other framework.'
-    );
-  }*/
+  async isUserExists(email: string) {
+    try {
+      const appDataSource = DatabaseModel.instance.appDataSource;
+      const user = await this.entityManger.exists(User, {
+        where: { email },
+      });
+      logger.debug('Found user: ', JSON.stringify(user));
+      return user;
+    } catch (error) {
+      logger.error('Error finding user', error);
+    }
+  }
 }
 
 export default DatabaseModel;

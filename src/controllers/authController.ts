@@ -13,8 +13,14 @@ class AuthController {
       // Auto generate salt and hash
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-      // const db = await DatabaseModel.getDbInstance();
-      // db.insertUser(email, hashedPassword, firstName, lastName);
+      const db = await DatabaseModel.getInstance();
+      const isExist = await db.isUserExists(email);
+      if (isExist) {
+        return res.status(httpStatus.BAD_REQUEST).json({
+          message: 'User already exists',
+        });
+      }
+      await db.insertUser({ ...req.body, password: hashedPassword });
 
       logger.debug('User created successfully');
       return res.status(httpStatus.CREATED).json({

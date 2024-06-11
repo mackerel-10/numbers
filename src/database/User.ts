@@ -5,17 +5,17 @@ export default class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column('varchar', { length: 32 })
+  @Column('varchar', { length: 32, unique: true })
   email!: string;
 
-  @Column('varchar', { length: 20 })
+  @Column('varchar', { length: 72 })
   password!: string;
 
   @Column('varchar', { length: 16 })
-  firstName!: string;
+  first_name!: string;
 
   @Column('varchar', { length: 16 })
-  lastName!: string;
+  last_name!: string;
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   created_at!: Date;
