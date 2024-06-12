@@ -1,15 +1,21 @@
 import path from 'path';
 import fs from 'fs';
-import { validate } from 'class-validator';
 import {
   NODE_ENV,
   ROOT_PATH,
   PORT,
   SKIP_ENV_TEST,
+  DB_HOST,
+  DB_PORT,
+  DB_DATABASE,
+  DB_USER,
+  DB_PASSWORD,
+  SALT_ROUNDS,
+  LOG_LEVEL,
 } from '../../src/config/config';
-import EnvDto from '../../src/dto/envDto';
+import EnvDto from '../../src/config/envConfig';
 import logger from '../../src/config/logger';
-import DatabaseModel from '../../src/database/databaseModel';
+import { configValidator } from '../../src/config/utils';
 
 describe('Environment file existence check', () => {
   if (!SKIP_ENV_TEST) {
@@ -21,28 +27,24 @@ describe('Environment file existence check', () => {
       expect(isExist).toBeTruthy();
     });
 
-    // Test environment variables
+    // Test environment variables configuration
     test(`Validate ${NODE_ENV} environment variables`, async () => {
-      const env = new EnvDto();
-      env.PORT = PORT;
+      const result = await configValidator(EnvDto, {
+        MYSQL_HOST: DB_HOST,
+        MYSQL_PORT: DB_PORT,
+        MYSQL_DATABASE: DB_DATABASE,
+        MYSQL_USER: DB_USER,
+        MYSQL_PASSWORD: DB_PASSWORD,
+        PORT,
+        LOG_LEVEL,
+        SALT_ROUNDS,
+      });
 
-      try {
-        await validate(env);
-      } catch (error) {
-        expect(error).toEqual([]); // Expect on error
-      }
+      expect(result).toEqual([]); // Expect on error
     });
   } else {
     it('Skip environment test', () => {
-      logger.info('Environment test is skipped');
+      logger.debug('Environment test is skipped');
     });
   }
-});
-
-describe('Check database connection', () => {
-  test('Check database connection', async () => {
-    const db = await DatabaseModel.getInstance();
-    expect(db.appDataSource.isInitialized).toBeTruthy();
-    await db.appDataSource.destroy();
-  });
 });

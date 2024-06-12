@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import AuthController from '../controllers/authController';
-import validationMiddleware from '../middlewares/validationMiddleware';
+import requestValidator from '../middlewares/requestValidator';
 import { SignUpDto } from '../dto/authDto';
 
 const authRouter = Router();
@@ -8,7 +8,7 @@ const authController = new AuthController();
 
 authRouter.post(
   '/v1/auth/signup',
-  validationMiddleware(SignUpDto),
+  requestValidator(SignUpDto),
   authController.signUp
 );
 

@@ -1,5 +1,5 @@
 import { createMockObjects, mockUser } from '../mockData';
-import validationMiddleWare from '../../src/middlewares/validationMiddleware';
+import validationMiddleWare from '../../src/middlewares/requestValidator';
 import { SignUpDto } from '../../src/dto/authDto';
 import httpStatus from 'http-status';
 

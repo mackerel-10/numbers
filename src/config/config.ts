@@ -1,6 +1,6 @@
 import path from 'path';
 import dotenv from 'dotenv';
-import { configureEnvFile } from '../utils/envFile';
+import { configureEnvFile } from './utils';
 
 /**
  * Server Config
@@ -16,11 +16,11 @@ export const PORT = Number(process.env.PORT) || 3000;
  * Database Config
  */
 export const DB_TYPE = 'mysql';
-export const DB_HOST = process.env.MYSQL_HOST;
+export const DB_HOST = process.env.MYSQL_HOST!;
 export const DB_PORT = Number(process.env.MYSQL_PORT) || 3306;
-export const DB_DATABASE = process.env.MYSQL_DATABASE;
-export const DB_USER = process.env.MYSQL_USER;
-export const DB_PASSWORD = process.env.MYSQL_PASSWORD;
+export const DB_DATABASE = process.env.MYSQL_DATABASE!;
+export const DB_USER = process.env.MYSQL_USER!;
+export const DB_PASSWORD = process.env.MYSQL_PASSWORD!;
 
 /**
  * Bcrypt Config
