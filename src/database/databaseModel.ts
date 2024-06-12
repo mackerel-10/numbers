@@ -21,6 +21,7 @@ class DatabaseModel {
   }
 
   static async getInstance() {
+    // If the instance is not initialized, create a new instance
     if (!DatabaseModel.instance) {
       const appDataSource = new DataSource({
         type: DB_TYPE,
@@ -41,10 +42,11 @@ class DatabaseModel {
       } catch (error) {
         logger.error('Error initializing the database', error);
       }
-      DatabaseModel.instance = new DatabaseModel(appDataSource);
+      this.instance = new DatabaseModel(appDataSource);
     }
 
-    return DatabaseModel.instance;
+    // Return the instance
+    return this.instance;
   }
 
   async insertUser(inputData: UserInput) {
@@ -52,8 +54,8 @@ class DatabaseModel {
       const user = new User();
       user.email = inputData.email;
       user.password = inputData.password;
-      user.first_name = inputData.firstName;
-      user.last_name = inputData.lastName;
+      user.firstName = inputData.firstName;
+      user.lastName = inputData.lastName;
 
       await this.entityManger.save(user);
       logger.debug('Saved a new user with id: ' + user.id);
@@ -64,7 +66,6 @@ class DatabaseModel {
 
   async isUserExists(email: string) {
     try {
-      const appDataSource = DatabaseModel.instance.appDataSource;
       const user = await this.entityManger.exists(User, {
         where: { email },
       });

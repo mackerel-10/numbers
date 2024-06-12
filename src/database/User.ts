@@ -12,17 +12,17 @@ export default class User {
   password!: string;
 
   @Column('varchar', { length: 16 })
-  first_name!: string;
+  firstName!: string;
 
   @Column('varchar', { length: 16 })
-  last_name!: string;
+  lastName!: string;
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
+  createdAt!: Date;
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  updated_at!: Date;
+  updatedAt!: Date;
 }
