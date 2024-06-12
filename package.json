@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test:unit": "jest --config test/unit",
-    "test:integration": "jest --config test/integration",
+    "test:unit": "npm test --config test/unit",
+    "test:integration": "npm test --config test/integration",
     "test:node:up": "docker compose -f docker-compose.test.yaml up -d",
     "test:node:down": "docker compose -f docker-compose.test.yaml down --rmi all",
     "test:mysql:up": "docker compose -f docker-compose.test.yaml up -d mysql",
