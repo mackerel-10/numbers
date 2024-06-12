@@ -4,7 +4,7 @@ import app from '../../src/app';
 import { mockUser } from '../mockData';
 import logger from '../../src/config/logger';
 import User from '../../src/database/User';
-import DatabaseModel from '../../src/database/databaseModel';
+import DatabaseModel from '../../src/database/DatabaseModel';
 
 describe('POST /auth/signup API Test', () => {
   afterAll(async () => {

@@ -15,9 +15,13 @@ import {
 } from '../../src/config/config';
 import EnvDto from '../../src/config/envConfig';
 import logger from '../../src/config/logger';
-import { configValidator } from '../../src/config/utils';
+import { configureEnvFile, configValidator } from '../../src/config/utils';
 
-describe('Environment file existence check', () => {
+describe('Environment variables configuration', () => {
+  test('Check choosing correct file depends on NODE_ENV: configureEnvFile', () => {
+    expect(configureEnvFile()).toBe(`.env.${NODE_ENV}`);
+  });
+
   if (!SKIP_ENV_TEST) {
     // Test file existence
     test(`Check ${NODE_ENV} environment file is exist`, () => {

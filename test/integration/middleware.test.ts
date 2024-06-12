@@ -1,7 +1,7 @@
+import httpStatus from 'http-status';
 import { createMockObjects, mockUser } from '../mockData';
 import validationMiddleWare from '../../src/middlewares/requestValidator';
 import { SignUpDto } from '../../src/dto/authDto';
-import httpStatus from 'http-status';
 
 describe('Validation Middleware Test', () => {
   test('Test valid request', async () => {

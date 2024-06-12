@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from '../config/config';
 import logger from '../config/logger';
-import DatabaseModel from '../database/databaseModel';
+import DatabaseModel from '../database/DatabaseModel';
 
 class AuthController {
   async signUp(req: Request, res: Response) {

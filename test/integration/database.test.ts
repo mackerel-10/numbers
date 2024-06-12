@@ -1,4 +1,4 @@
-import DatabaseModel from '../../src/database/databaseModel';
+import DatabaseModel from '../../src/database/DatabaseModel';
 
 describe('Check database connection', () => {
   test('Check database connection', async () => {
