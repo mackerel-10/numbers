@@ -1,6 +1,6 @@
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import { ROOT_PATH, NODE_ENV } from './config';
+import { ROOT_PATH, NODE_ENV, LOG_LEVEL } from './config';
 
 const { combine, timestamp, printf } = winston.format;
 
@@ -22,7 +22,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
  */
 
 const logger = winston.createLogger({
-  level: 'debug',
+  level: LOG_LEVEL,
   format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
   transports: [
     new DailyRotateFile({

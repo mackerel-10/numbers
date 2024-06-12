@@ -26,3 +26,8 @@ export const DB_PASSWORD = process.env.MYSQL_PASSWORD;
  * Bcrypt Config
  */
 export const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
+
+/**
+ * Logger Config
+ */
+export const LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
