@@ -1,10 +1,15 @@
 import path from 'path';
 import fs from 'fs';
 import { validate } from 'class-validator';
-import { NODE_ENV, ROOT_PATH, PORT, SKIP_ENV_TEST } from '../src/config/config';
-import EnvDto from '../src/dto/envDto';
-import logger from '../src/config/logger';
-import DatabaseModel from '../src/database/databaseModel';
+import {
+  NODE_ENV,
+  ROOT_PATH,
+  PORT,
+  SKIP_ENV_TEST,
+} from '../../src/config/config';
+import EnvDto from '../../src/dto/envDto';
+import logger from '../../src/config/logger';
+import DatabaseModel from '../../src/database/databaseModel';
 
 describe('Environment file existence check', () => {
   if (!SKIP_ENV_TEST) {
