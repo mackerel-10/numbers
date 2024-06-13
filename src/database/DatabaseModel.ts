@@ -1,4 +1,4 @@
-import { DataSource, EntityManager } from 'typeorm';
+import { DataSource, EntityManager, EntityTarget } from 'typeorm';
 import logger from '../config/logger';
 import {
   DB_DATABASE,
@@ -73,6 +73,18 @@ class DatabaseModel {
       return user;
     } catch (error) {
       logger.error('Error finding user', error);
+    }
+  }
+
+  async truncateTable<Entity>(entity: EntityTarget<Entity>) {
+    try {
+      await this.entityManger.query('SET FOREIGN_KEY_CHECKS = 0');
+      await this.entityManger.clear(entity);
+      await this.entityManger.query('SET FOREIGN_KEY_CHECKS = 1');
+
+      logger.debug('Truncated table');
+    } catch (error) {
+      logger.error('Error truncating table', error);
     }
   }
 }

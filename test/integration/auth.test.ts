@@ -8,9 +8,9 @@ import DatabaseModel from '../../src/database/DatabaseModel';
 
 describe('POST /auth/signup API Test', () => {
   afterAll(async () => {
-    // delete the user from the database
+    // Truncate the User table after the test
     const db = await DatabaseModel.getInstance();
-    await db.appDataSource.manager.clear(User);
+    await db.truncateTable(User);
   });
   test('User inserted', async () => {
     try {
@@ -19,6 +19,7 @@ describe('POST /auth/signup API Test', () => {
         .post('/api/v1/auth/signup')
         .send(mockUser.validRequest);
       expect(response.statusCode).toBe(httpStatus.CREATED);
+      logger.debug('Response: ', JSON.stringify(response.body));
 
       // Check if the user is saved in the database
       logger.debug('Loading users from the database...');
