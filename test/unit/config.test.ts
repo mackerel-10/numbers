@@ -15,7 +15,45 @@ import {
 } from '../../src/config/config';
 import EnvDto from '../../src/config/envConfig';
 import logger from '../../src/config/logger';
-import { configureEnvFile, configValidator } from '../../src/config/utils';
+import {
+  configureEnvFile,
+  classMapperAndValidator,
+} from '../../src/config/utils';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+
+describe('Class mapper and validator', () => {
+  class TestDataType {
+    @IsString()
+    @IsNotEmpty()
+    name!: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    age!: number;
+  }
+
+  test('Test DTO and configuration mapper', async () => {
+    const result = await classMapperAndValidator(TestDataType, {
+      name: 'John Doe',
+      age: 30,
+    });
+
+    expect(result instanceof TestDataType).toBeTruthy();
+  });
+
+  test('Test DTO and configuration mapper with missing field', async () => {
+    try {
+      await classMapperAndValidator(TestDataType, {
+        name: 'John Doe',
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error.message, { stack: error.stack });
+        expect(error).toBeTruthy();
+      }
+    }
+  });
+});
 
 describe('Environment variables configuration', () => {
   test('Check choosing correct file depends on NODE_ENV: configureEnvFile', () => {
@@ -33,7 +71,7 @@ describe('Environment variables configuration', () => {
 
     // Test environment variables configuration
     test(`Validate ${NODE_ENV} environment variables`, async () => {
-      const result = await configValidator(EnvDto, {
+      const result = await classMapperAndValidator(EnvDto, {
         MYSQL_HOST: DB_HOST,
         MYSQL_PORT: DB_PORT,
         MYSQL_DATABASE: DB_DATABASE,

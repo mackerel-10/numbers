@@ -1,6 +1,6 @@
 import DatabaseModel from '../../src/database/DatabaseModel';
 import User from '../../src/database/User';
-import { configValidator } from '../../src/config/utils';
+// import { classMapperAndValidator } from '../../src/config/utils';
 
 describe('Check database connection', () => {
   test('Check database connection', async () => {

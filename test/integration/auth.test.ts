@@ -19,13 +19,11 @@ describe('POST /auth/signup API Test', () => {
         .post('/api/v1/auth/signup')
         .send(mockUser.validRequest);
       expect(response.statusCode).toBe(httpStatus.CREATED);
-      logger.debug('Response: ', JSON.stringify(response.body));
+      logger.debug(`Response: ${response.body}`);
 
       // Check if the user is saved in the database
-      logger.debug('Loading users from the database...');
       const db = await DatabaseModel.getInstance();
       const user = await db.isUserExists(mockUser.validRequest.email);
-      logger.debug('Loaded users: ', JSON.stringify(user));
       expect(user).toBeTruthy();
     } catch (error) {
       expect(error).toMatch('error');

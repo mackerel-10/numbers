@@ -1,32 +1,30 @@
-import { NODE_ENV } from './config';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+import { NODE_ENV } from './config';
 
 export function configureEnvFile() {
-  switch (NODE_ENV) {
-    case 'production':
-      return '.env.prod';
-    case 'development':
-      return '.env.dev';
-    case 'test':
-      return '.env.test';
-    default:
-      return '.env';
-  }
+  if (NODE_ENV === 'production') return '.env.prod';
+  else if (NODE_ENV === 'development') return '.env.dev';
+  else if (NODE_ENV === 'test') return '.env.test';
+  return '.env';
 }
 
 /**
  * Validate DTO and configuration file
  *
- * Returns [] if no error, but error occurs it returns array of error messages
+ * Returns mappedData, but error occurs it throws error
  * @param dataType
  * @param data
  */
-export async function configValidator<T extends object>(
+export async function classMapperAndValidator<T extends object>(
   dataType: new () => T,
   data: object
 ) {
   const mappedData = plainToInstance(dataType, data);
+  const error = await validate(mappedData);
+  if (error.length > 0) {
+    throw new Error(error.toString());
+  }
 
-  return await validate(mappedData);
+  return mappedData;
 }
