@@ -31,3 +31,4 @@ export const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
  * Logger Config
  */
 export const LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
+export const LOG_DIRECTORY = `${ROOT_PATH}/logs`;

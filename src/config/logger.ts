@@ -1,15 +1,3 @@
-import winston from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
-import { ROOT_PATH, NODE_ENV, LOG_LEVEL } from './config';
-
-const { combine, timestamp, printf } = winston.format;
-
-const logDirectory = `${ROOT_PATH}/logs`;
-
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} ${level}: ${message}`;
-});
-
 /**
  * winston log level
  * error: 0
@@ -21,27 +9,45 @@ const logFormat = printf(({ level, message, timestamp }) => {
  * silly: 6
  */
 
+import winston from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import { NODE_ENV, LOG_LEVEL, LOG_DIRECTORY } from './config';
+
+const { combine, timestamp, printf, errors } = winston.format;
+
+const logFormat = printf(({ timestamp, level, message, stack }) => {
+  if (stack) {
+    return `${timestamp} ${level}: ${stack.replace(/Error: /g, '')}`;
+  } else {
+    return `${timestamp} ${level}: ${message}`;
+  }
+});
+
 const logger = winston.createLogger({
   level: LOG_LEVEL,
-  format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
+  format: combine(
+    timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    errors(),
+    logFormat
+  ),
   transports: [
     new DailyRotateFile({
       level: 'error',
-      dirname: `${logDirectory}/error`,
+      dirname: `${LOG_DIRECTORY}/error`,
       filename: '%DATE%-error.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '14d',
     }),
     new DailyRotateFile({
       level: 'info',
-      dirname: logDirectory,
+      dirname: LOG_DIRECTORY,
       filename: '%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '14d',
     }),
     new DailyRotateFile({
       level: 'debug',
-      dirname: `${logDirectory}/debug`,
+      dirname: `${LOG_DIRECTORY}/debug`,
       filename: '%DATE%-debug.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '14d',
@@ -50,7 +56,7 @@ const logger = winston.createLogger({
   exceptionHandlers: [
     new DailyRotateFile({
       level: 'error',
-      dirname: `${logDirectory}/error`,
+      dirname: `${LOG_DIRECTORY}/error`,
       filename: '%DATE%-error.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '14d',
@@ -62,7 +68,7 @@ if (NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
       format: winston.format.combine(
-        winston.format.colorize(), // log level별로 색상 적용하기
+        winston.format.colorize(),
         winston.format.simple() // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
       ),
     })
