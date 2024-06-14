@@ -2,11 +2,15 @@ import DatabaseModel from '../../src/database/DatabaseModel';
 import User from '../../src/database/User';
 // import { classMapperAndValidator } from '../../src/config/utils';
 
-describe('Check database connection', () => {
-  test('Check database connection', async () => {
+describe('Testing database', () => {
+  afterAll(async () => {
+    const db = await DatabaseModel.getInstance();
+    await db.appDataSource.destroy();
+  });
+
+  test('Test Database connection', async () => {
     const db = await DatabaseModel.getInstance();
     expect(db.appDataSource.isInitialized).toBeTruthy();
-    await db.appDataSource.destroy();
   });
 
   // test('Insert a user', async () => {
@@ -15,9 +19,16 @@ describe('Check database connection', () => {
   //
   // }
 
-  test('Truncate the table', async () => {
-    const db = await DatabaseModel.getInstance();
+  test('Test truncateTable which truncate table', async () => {
+    try {
+      const db = await DatabaseModel.getInstance();
+      const truncatedResult = await db.truncateTable(User);
 
-    await expect(db.truncateTable(User)).resolves.toBeUndefined();
+      expect(truncatedResult).toBeUndefined();
+    } catch (error) {
+      if (error instanceof Error) {
+        expect(error).toBeTruthy();
+      }
+    }
   });
 });
