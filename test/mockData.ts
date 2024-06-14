@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 export function createMockObjects<T>(mockData: T) {
   const mockRequest = {
     body: mockData,
   } as Request;
   const mockResponse = {
-    status: jest.fn().mockReturnThis(),
+    status: jest.fn(),
     json: jest.fn(),
   } as unknown as Response;
   const mockNext: NextFunction = jest.fn();

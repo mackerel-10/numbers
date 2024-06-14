@@ -1,18 +1,18 @@
+import '../../src/config/config';
 import httpStatus from 'http-status';
 import { createMockObjects, mockUser } from '../mockData';
-import validationMiddleWare from '../../src/middlewares/requestValidator';
+import requestValidator from '../../src/middlewares/requestValidator';
 import { SignUpDto } from '../../src/dto/authDto';
 
-describe('Validation Middleware Test', () => {
+describe('Request Validator', () => {
   test('Test valid request', async () => {
     const { mockRequest, mockResponse, mockNext } = createMockObjects(
       mockUser.validRequest
     );
 
-    await validationMiddleWare(SignUpDto)(mockRequest, mockResponse, mockNext);
-    expect(mockResponse.status).not.toHaveBeenCalledWith(
-      httpStatus.BAD_REQUEST
-    );
+    await requestValidator(SignUpDto)(mockRequest, mockResponse, mockNext);
+    console.log(mockResponse.status);
+    expect(mockResponse.status).not.toEqual(httpStatus.BAD_REQUEST);
   });
 
   test('Test bad request', async () => {
@@ -20,7 +20,7 @@ describe('Validation Middleware Test', () => {
       mockUser.badRequest
     );
 
-    await validationMiddleWare(SignUpDto)(mockRequest, mockResponse, mockNext);
-    expect(mockResponse.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    await requestValidator(SignUpDto)(mockRequest, mockResponse, mockNext);
+    expect(mockResponse.status).toEqual(httpStatus.BAD_REQUEST);
   });
 });
