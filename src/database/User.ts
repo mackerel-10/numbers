@@ -8,7 +8,7 @@ export default class User {
   @Column('varchar', { length: 32, unique: true })
   email!: string;
 
-  @Column('varchar', { length: 72 })
+  @Column('varchar', { length: 72 }) // Hashed password length
   password!: string;
 
   @Column('varchar', { length: 16 })
@@ -16,6 +16,9 @@ export default class User {
 
   @Column('varchar', { length: 16 })
   lastName!: string;
+
+  @Column('date')
+  dayOfBirth!: Date;
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;

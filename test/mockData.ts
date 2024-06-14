@@ -19,10 +19,12 @@ export const mockUser = {
     password: 'password',
     firstName: 'John',
     lastName: 'Doe',
+    dayOfBirth: '2001-01-01',
   },
   badRequest: {
     email: 'test@test.com',
     password: 'password',
     firstName: 'John',
+    dayOfBirth: '2001-01-01',
   },
 };

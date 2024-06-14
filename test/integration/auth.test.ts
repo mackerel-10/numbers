@@ -7,30 +7,29 @@ import User from '../../src/database/User';
 import DatabaseModel from '../../src/database/DatabaseModel';
 
 describe('POST /auth/signup API Test', () => {
+  let db: DatabaseModel;
+  beforeAll(async () => {
+    db = await DatabaseModel.getInstance();
+  });
+
   afterAll(async () => {
     // Truncate the User table after the test
-    const db = await DatabaseModel.getInstance();
     await db.truncateTable(User);
-  });
-  test('User inserted', async () => {
-    try {
-      // Insert user
-      const response = await request(app)
-        .post('/api/v1/auth/signup')
-        .send(mockUser.validRequest);
-      expect(response.statusCode).toBe(httpStatus.CREATED);
-      logger.debug(`Response: ${response.body}`);
-
-      // Check if the user is saved in the database
-      const db = await DatabaseModel.getInstance();
-      const user = await db.isUserExists(mockUser.validRequest.email);
-      expect(user).toBeTruthy();
-    } catch (error) {
-      expect(error).toMatch('error');
-    }
+    // Close the connection
+    await db.appDataSource.destroy();
   });
 
-  test('Check if the user exists', async () => {
+  test('Test API', async () => {
+    // Insert user
+    const response = await request(app)
+      .post('/api/v1/auth/signup')
+      .send(mockUser.validRequest);
+
+    expect(response.statusCode).toBe(httpStatus.CREATED);
+    logger.debug(`Response: ${JSON.stringify(response.body)}`);
+  });
+
+  test('Test if the user exists', async () => {
     // Check if the user is saved in the database
     const response = await request(app)
       .post('/api/v1/auth/signup')

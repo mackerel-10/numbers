@@ -3,4 +3,5 @@ interface UserInput {
   password: string;
   firstName: string;
   lastName: string;
+  dayOfBirth: Date;
 }

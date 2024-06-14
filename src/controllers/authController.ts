@@ -8,7 +8,7 @@ import DatabaseModel from '../database/DatabaseModel';
 class AuthController {
   async signUp(req: Request, res: Response) {
     try {
-      const { email, password, firstName, lastName } = req.body;
+      const { email, password, firstName, lastName, dayOfBirth } = req.body;
 
       // Auto generate salt and hash
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -20,7 +20,10 @@ class AuthController {
           message: 'User already exists',
         });
       }
-      await db.insertUser({ ...req.body, password: hashedPassword });
+      await db.insertUser({
+        ...req.body,
+        password: hashedPassword,
+      });
 
       logger.debug('User created successfully');
       return res.status(httpStatus.CREATED).json({
@@ -29,6 +32,7 @@ class AuthController {
           email,
           firstName,
           lastName,
+          dayOfBirth,
         },
       });
     } catch (error) {

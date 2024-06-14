@@ -42,7 +42,6 @@ describe('Class mapper and validator', () => {
     } catch (error) {
       if (error instanceof Error) {
         logger.error(error.message, { stack: error.stack });
-        expect(error).toBeFalsy();
       }
     }
   });

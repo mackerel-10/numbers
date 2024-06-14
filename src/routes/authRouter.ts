@@ -6,10 +6,6 @@ import { SignUpDto } from '../dto/authDto';
 const authRouter = Router();
 const authController = new AuthController();
 
-authRouter.post(
-  '/v1/auth/signup',
-  requestValidator(SignUpDto),
-  authController.signUp
-);
+authRouter.post('/signup', requestValidator(SignUpDto), authController.signUp);
 
 export default authRouter;

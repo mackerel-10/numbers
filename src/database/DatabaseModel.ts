@@ -9,6 +9,7 @@ import {
   DB_USER,
 } from '../config/config';
 import User from './User';
+import { plainToInstance } from 'class-transformer';
 
 class DatabaseModel {
   private static instance: DatabaseModel;
@@ -51,16 +52,12 @@ class DatabaseModel {
 
   async insertUser(inputData: UserInput) {
     try {
-      const user = new User();
-      user.email = inputData.email;
-      user.password = inputData.password;
-      user.firstName = inputData.firstName;
-      user.lastName = inputData.lastName;
+      const user = plainToInstance(User, inputData);
 
       await this.entityManger.save(user);
       logger.debug('Saved a new user with id: ' + user.id);
     } catch (error) {
-      logger.error('Error inserting user', error);
+      logger.error('Error inserting user', { stack: error });
     }
   }
 
