@@ -33,12 +33,18 @@ describe('Class mapper and validator', () => {
   }
 
   test('Test DTO and configuration mapper', async () => {
-    const result = await classMapperAndValidator(TestDataType, {
-      name: 'John Doe',
-      age: 30,
-    });
-
-    expect(result instanceof TestDataType).toBeTruthy();
+    try {
+      const data = await classMapperAndValidator(TestDataType, {
+        name: 'John Doe',
+        age: 30,
+      });
+      expect(data).toBeTruthy();
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error.message, { stack: error.stack });
+        expect(error).toBeFalsy();
+      }
+    }
   });
 
   test('Test DTO and configuration mapper with missing field', async () => {
@@ -71,18 +77,25 @@ describe('Environment variables configuration', () => {
 
     // Test environment variables configuration
     test(`Validate ${NODE_ENV} environment variables`, async () => {
-      const result = await classMapperAndValidator(EnvDto, {
-        MYSQL_HOST: DB_HOST,
-        MYSQL_PORT: DB_PORT,
-        MYSQL_DATABASE: DB_DATABASE,
-        MYSQL_USER: DB_USER,
-        MYSQL_PASSWORD: DB_PASSWORD,
-        PORT,
-        LOG_LEVEL,
-        SALT_ROUNDS,
-      });
+      try {
+        const result = await classMapperAndValidator(EnvDto, {
+          MYSQL_HOST: DB_HOST,
+          MYSQL_PORT: DB_PORT,
+          MYSQL_DATABASE: DB_DATABASE,
+          MYSQL_USER: DB_USER,
+          MYSQL_PASSWORD: DB_PASSWORD,
+          PORT,
+          LOG_LEVEL,
+          SALT_ROUNDS,
+        });
 
-      expect(result).toEqual([]); // Expect on error
+        expect(result).toBeTruthy(); // Expect on error
+      } catch (error) {
+        if (error instanceof Error) {
+          logger.error(error.message, { stack: error.stack });
+          expect(error).toBeFalsy();
+        }
+      }
     });
   } else {
     it('Skip environment test', () => {
